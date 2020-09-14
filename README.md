@@ -190,7 +190,6 @@ python -m delete_resources.py # Entry point to kick-off a series of processes to
 2. The pipelines would be run on a daily basis by 7 am every day.
     - We can schedule our Airflow pipelines so that they follow this pattern.
     - Airflow will store useful statistics regarding job status and we can easily spot faults in the pipeline.
-</br>
 
 3. The database needed to be accessed by 100+ people.
     - Amazon Redshift should be able to handle 100+ people querying the Datawarehouse. The user can also increase the number of instances at any time to satisfy high demand.
