@@ -151,8 +151,7 @@ The split data sets are saved on data/split/
 
 #### Edit dwh.cfg file
 
-This file holds the configuration variables used on the scripts to create and configure the AWS resources.
-
+This file holds the configuration variables used on the scripts to create and configure the AWS resources. </br>
 These are the variables the user needs to set up before running the `create_resources.py` script.
 
 ```
@@ -180,30 +179,25 @@ python create_resources.py # Entry point to kick-off a series of processes from 
 The execution of this script incur <b>REAL MONEY</b> costs so be aware of that.
 
 #### Start "Create Datalake" DAG
-Visit the Airflow UI and start the "create_datalake_dag" by switching it state from OFF to ON.
-
+Visit the Airflow UI and start the "create_datalake_dag" by switching it state from OFF to ON. </br>
 Refresh the page and click on the "trigger dag" button.
 
 ![datalake_dag_trigger](images/datalake_dag_trigger.png)
 
-Finally, click on "create_datalake_dag" and then on "Graph View" to view the current DAG state.
-
-This pipeline creates the S3 bucket for our data lake and uploads the files from local machine.
-
+Finally, click on "create_datalake_dag" and then on "Graph View" to view the current DAG state. </br>
+This pipeline creates the S3 bucket for our data lake and uploads the files from local machine. </br>
 Wait until the pipeline has successfully completed (it should take around 15-20 minutes).
 
 ![datalake_dag_state](images/datalake_dag_graph_view.png)
 
 #### Start "Accident ETL" DAG
-Go back to Airflow home page and start the "us_accident_etl_dag" by switching it state from OFF to ON.
+Go back to Airflow home page and start the "us_accident_etl_dag" by switching it state from OFF to ON. </br>
 Refresh the page and click on the "trigger dag" button.
 
 ![accident_etl_dag_trigger](images/accident_etl_dag_trigger.png)
 
-Finally, click on "us_accident_etl_dag" and then on "Graph View" to view the current DAG state.
-
-This pipeline creates the dimensional model we are going to use for the analysis, it creates database schema, dimension and fact tables on Redshift and loads data from S3 to Redshift
-
+Finally, click on "us_accident_etl_dag" and then on "Graph View" to view the current DAG state. </br>
+This pipeline creates the dimensional model we are going to use for the analysis, it creates database schema, dimension and fact tables on Redshift and loads data from S3 to Redshift </br>
 Wait until the pipeline has successfully completed.
 
 ![accident_etl_dag_graph_view](images/accident_etl_dag_graph_view.png)
