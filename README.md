@@ -94,25 +94,30 @@ Navigate to "data-profiling" and open the comprehensive Data Profiling for each 
 - [US Cities: Demographics](data-profiling/)
 - [US COVID-19](data-profiling/)
 
-### Fact Table
-```
-• songplays - records in log data associated with song plays i.e. records with page NextSong
-  table schema: songplay_id, start_time, user_id, level, song_id, artist_id, session_id, location, user_agent
-```
-### Dimension Tables
-```
-• users - users in the app
-  table schema: user_id, first_name, last_name, gender, level
+### Data Model
 
-• songs - songs in music database
-  table schema: song_id, title, artist_id, year, duration
+The dimensional model consists of seven tables.
+The details and relationship between them are listed below:
 
-• artists - artists in music database
-  table schema: artist_id, name, location, latitude, longitude
-
-• time - timestamps of records in songplays broken down into specific units
-  table schema: start_time, hour, day, week, month, year, weekday
+#### Fact Tables
 ```
+• us_demographics - Provides demographics information about US cities
+• us_accidents - Provides the accident details
+• us_covid_19 - Provides daily information about COVID-19 in US
+```
+
+#### Dimension Tables
+```
+• accident_address - Provides a unique list addresses based on accidents
+• accident_location_details - Provides the accident location details based on the accident address surroundings
+• weather_condition - Provides the weather condition at the time of the accident
+• dates - Provides timestamps of records broken down into specific units
+```
+
+#### ERD Data Structure
+
+![data_model](images/data-model.png)
+
 ### Instructions for running locally
 
 #### Clone repository to local machine
@@ -163,7 +168,7 @@ VPC_ID = <ENTER VPC ID>  # paste the VPC_ID you want to create the resources (If
 <b>REMEMBER:</b> Never share your <b>AWS ACCESS KEY & SECRET KEY</b> on scripts.  </br>
 This is just an experiment to get familiarized with AWS SDK for Python.
 
-#### Start Airflow container
+#### Start Airflow Container
 
 Everything is configured in the docker-compose.yml file.
 ```
