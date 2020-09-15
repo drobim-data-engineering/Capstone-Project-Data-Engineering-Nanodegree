@@ -70,7 +70,7 @@ The main goal of this project is to build an end-to-end data pipeline which is c
 ### Technologies
 We are going to store the raw data on Amazon S3, which is is an object storage service that offers industry-leading scalability, availability and durability.
 
-Considering the current data size, we are going to use Amazon Redshift to ingest the data from S3 and perform the ETL process, denormalizing the datasets to create FACTS and DIMENSION tables.
+Considering the current data size, we are going to use Amazon Redshift to ingest the data from S3 and perform the ETL process, denormalizing the datasets to create FACT and DIMENSION tables.
 
 Finally, to orchestrate everything, we are going to build a data pipeline using Apache Airflow.
 Airflow provides an intuitive UI where we can track the progress and bottlenecks of our pipelines.
@@ -87,12 +87,12 @@ We are going to work with 3 datasets:
 - [U.S COVID-19](https://www.kaggle.com/imdevskp/corona-virus-report?select=usa_county_wise.csv)
     - This dataset contains information about COVID-19 cases in US at county level.
 
-### Explore Data Quality
+### Data Exploration
 Please refer to the comprehensive Data Profiling for each dataset.
 
 - [US Accidents](data-profiling/us-accidents.html)
-- [US Cities: Demographics](data-profiling/us-cities-demographics)
-- [US COVID-19](data-profiling/covid_19_usa)
+- [US Cities: Demographics](data-profiling/us-cities-demographics-dataset.html)
+- [US COVID-19](data-profiling/covid-19-dataset.html)
 
 ### Fact Table
 ```
@@ -149,12 +149,6 @@ python split_data.py # Split the data into chunks
 ```
 The split data sets are saved on data/split/
 
-#### Start Airflow container
-
-Everything is configured in the docker-compose.yml file.
-```
-docker-compose up
-```
 #### Edit dwh.cfg file
 
 This file holds the configuration variables used on the scripts to create and configure the AWS resources.
@@ -170,6 +164,13 @@ VPC_ID = <ENTER VPC ID>  # paste the VPC_ID you want to create the resources (If
 
 This is just an experiment to get familiarized with AWS SDK for Python.
 
+#### Start Airflow container
+
+Everything is configured in the docker-compose.yml file.
+```
+docker-compose up
+```
+
 #### Run script
 ```
 cd src/
@@ -177,17 +178,29 @@ python create_resources.py # Entry point to kick-off a series of processes from 
 ```
 The execution of this script incur <b>REAL MONEY</b> costs so be aware of that.
 
-#### Start the DAG
-Visit the Airflow UI and start the DAG by switching it state from OFF to ON.
+#### Start "Create Datalake" DAG
+Visit the Airflow UI and start the "create_datalake_dag" by switching it state from OFF to ON.
 Refresh the page and click on the "trigger dag" button.
 
-![trigger_dag](images/datalake_dag_trigger.png)
+![datalake_dag_trigger](images/datalake_dag_trigger.png)
 
 Finally, click on "create_datalake_dag" and then on "Graph View" to view the current DAG state.
 This pipeline creates the S3 bucket for our data lake and uploads the files from local machine.
 Wait until the pipeline has successfully completed (it should take around 15-20 minutes).
 
-![dag_state](images/datalake_dag_graph_view.png)
+![datalake_dag_state](images/datalake_dag_graph_view.png)
+
+#### Start "Accident ETL" DAG
+Go back to Airflow home page and start the "us_accident_etl_dag" by switching it state from OFF to ON.
+Refresh the page and click on the "trigger dag" button.
+
+![accident_etl_dag_trigger](images/accident_etl_dag_trigger.png)
+
+Finally, click on "us_accident_etl_dag" and then on "Graph View" to view the current DAG state.
+This pipeline creates the dimensional model we are going to use for the analysis, it creates database schema, dimension and fact tables on Redshift and loads data from S3 to Redshift
+Wait until the pipeline has successfully completed.
+
+![accident_etl_dag_graph_view](images/accident_etl_dag_graph_view.png)
 
 #### Delete Resources
 Please make sure to run the script below once the process is completed.
