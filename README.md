@@ -5,11 +5,11 @@ Deivid Robim [Linkedin](https://www.linkedin.com/in/deivid-robim-200b3330/)
 
 ### Capstone Project: How COVID-19 impacted U.S Automotive Accidents?
 
-A Automotive Telematics startup, Global Telematics, has grown their traffic data and want to move their processes and data onto the cloud.
+A Automotive Telematics startup, Global Telematics, has grown their traffic data and want to move their processes and data onto the cloud. </br>
 Their data resides in S3, in a directory of CSV files representing daily automotive accidents in U.S, as well as a directory with daily U.S COVID-19 data at county level.
 
-As their data engineer, you are tasked with building an ETL pipeline that extracts their data from S3, stages them in Redshift, and transforms data into a set of dimensional tables for their Analytics team to continue finding insights.
-This time, the Analytics Team wants to ingest COVID-19 data to understand how the lockdown in U.S impacted automotive accidents.
+As their data engineer, you are tasked with building an ETL pipeline that extracts their data from S3, stages them in Redshift, and transforms data into a set of dimensional tables for their Analytics team to continue finding insights. </br>
+Due to a pandemic that started in January 2020, the Analytics Team wants to ingest COVID-19 data to understand how the lockdown in U.S impacted automotive accidents.
 
 ### Project Structure
 ```
@@ -65,6 +65,7 @@ Capstone-Project-Data-Engineering-Nanodegree
 
 ### Project Goal
 The idea is to create a data lake and a DataWarehouse on AWS, enabling users to analyze accidents data and extract insights.
+
 The main goal of this project is to build an end-to-end data pipeline which is capable to work with big volumes of data.
 
 ### Technologies
@@ -137,7 +138,7 @@ source venv/bin/activate         # activate virtualenv
 pip install -r requirements.txt  # install requirements (this can take couple of minutes)
 ```
 
-#### Split the data
+#### Download data
 Download and save the data as followed below:
 
 - [U.S Accidents](https://www.kaggle.com/sobhanmoosavi/us-accidents)
@@ -147,10 +148,11 @@ Download and save the data as followed below:
 - [U.S COVID-19](https://www.kaggle.com/imdevskp/corona-virus-report?select=usa_county_wise.csv)
     - data/raw/covid-19/
 
+#### Split the data
 The script below goes through the directory input by the user and splits the data.
 ```
 cd src/
-python split_data.py # Split the data into chunks
+python -m split_data.py # Split the data into chunks
 ```
 The split data sets are saved on data/split/
 
@@ -172,13 +174,15 @@ This is just an experiment to get familiarized with AWS SDK for Python.
 
 Everything is configured in the docker-compose.yml file.
 ```
+cd ..
 docker-compose up
 ```
 
-#### Run script
+#### Create AWS Resources
+This is the entry point to kick-off a series of processes from creating resources on AWS to creating custom connections on Airflow.
 ```
 cd src/
-python create_resources.py # Entry point to kick-off a series of processes from creating resources on AWS to creating custom connections on Airflow.
+python -m create_resources.py # Creates required resources
 ```
 The execution of this script incur <b>REAL MONEY</b> costs so be aware of that.
 
