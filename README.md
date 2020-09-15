@@ -114,7 +114,7 @@ The details and relationship between them are listed below:
 • dates - Provides timestamps of records broken down into specific units
 ```
 
-#### ERD Data Structure
+#### Entity Relationship Diagram
 
 ![data_model](images/data-model.png)
 
