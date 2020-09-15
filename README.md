@@ -3,24 +3,24 @@
 ## Author
 Deivid Robim [Linkedin](https://www.linkedin.com/in/deivid-robim-200b3330/)
 
-### Capstone Project: How COVID-19 impected U.S Automobile Accidents?
+### Capstone Project: How COVID-19 impacted U.S Automotive Accidents?
 
-A automobile telematics startup, Global Telematics, has grown their traffic data and want to move their processes and data onto the cloud.
-Their data resides in S3, in a directory of CSV files representing daily automobile accidents in U.S, as well as a directory with daily U.S COVID-19 data at county level.
+A Automotive Telematics startup, Global Telematics, has grown their traffic data and want to move their processes and data onto the cloud.
+Their data resides in S3, in a directory of CSV files representing daily automotive accidents in U.S, as well as a directory with daily U.S COVID-19 data at county level.
 
 As their data engineer, you are tasked with building an ETL pipeline that extracts their data from S3, stages them in Redshift, and transforms data into a set of dimensional tables for their Analytics team to continue finding insights.
-This time, the Analytics Team wants to ingest COVID-19 data to understand how the lockdown in U.S impected the automobile accidents.
+This time, the Analytics Team wants to ingest COVID-19 data to understand how the lockdown in U.S impacted automotive accidents.
 
 ### Project Structure
 ```
-Data-Pipelines-with-Airflow
+Capstone-Project-Data-Engineering-Nanodegree
 │   README.md                    # Project description
 │   requirements.txt             # Python dependencies
 │   docker-compose.yml           # Docker Containers Configuration
 └───airflow                      # Airflow home
 |   |
 │   └───dags                          # Airflow DAGs location
-│   |   │ create_raw_datalake_dag.py  # DAG definition
+│   |   │ create_datalake_dag.py  # DAG definition
 │   |   │ us_accidents_etl_dag.py  # DAG definition
 |   |   |
 |   └───plugins
@@ -36,9 +36,20 @@ Data-Pipelines-with-Airflow
 |       |   | data_quality.py    # DataQualityOperator
 |       |   | load_table.py      # LoadTableOperator
 |       |   | s3_to_redshift.py  # S3ToRedshiftOperator
+|___data-profiling
+│   | covid-19.html
+│   | us-accidents.html
+│   | us-cities-demographics.html
+|___data
+|   |
+│   └───raw                          # Raw data is saved here
+│   |   └─── covid-19                # Covid-19 data set directory
+│   |   └─── us-accidents            # us-accidents data set directory
+│   |   └─── us-cities-demographics  # us-cities-demographics data set directory
+│   └───split                        # Split data is saved here automatically (Directories are created automatically as well)
 |___images
-|   | dag_graph_view.png # DAG Graph View
-|   | trigger_dag.png # DAG Tree View
+|   | datalake_dag_graph_view.png # DAG Graph View
+|   | datalake_dag_trigger.png # DAG Tree View
 |___src
 |   | create_resources.py # Script to create resources required
 |   | delete_resources.py # Script to delete resources created
@@ -122,12 +133,21 @@ pip install -r requirements.txt  # install requirements (this can take couple of
 ```
 
 #### Split the data
-Download and place the data in the desired directory.
+Download and save the data as followed below:
+
+- [U.S Accidents](https://www.kaggle.com/sobhanmoosavi/us-accidents)
+    - data/raw/us-accidents/
+- [U.S Cities: Demographics](https://public.opendatasoft.com/explore/dataset/us-cities-demographics)
+    - data/raw/us-cities-demographics/
+- [U.S COVID-19](https://www.kaggle.com/imdevskp/corona-virus-report?select=usa_county_wise.csv)
+    - data/raw/covid-19/
+
 The script below goes through the directory input by the user and splits the data.
 ```
 cd src/
 python split_data.py # Split the data into chunks
 ```
+The split data sets are saved on data/split/
 
 #### Start Airflow container
 
@@ -159,15 +179,15 @@ The execution of this script incur <b>REAL MONEY</b> costs so be aware of that.
 
 #### Start the DAG
 Visit the Airflow UI and start the DAG by switching it state from OFF to ON.
-
 Refresh the page and click on the "trigger dag" button.
 
-![trigger_dag](images/trigger_dag.png)
+![trigger_dag](images/datalake_dag_trigger.png)
 
-Finally, click on "create_raw_datalake_dag" and then on "Graph View" to view the current DAG state.
-This pipeline creates the S3 bucket for our raw data lake and uploads the files from local machine. Wait until the pipeline has successfully completed (it should take around 15-20 minutes).
+Finally, click on "create_datalake_dag" and then on "Graph View" to view the current DAG state.
+This pipeline creates the S3 bucket for our data lake and uploads the files from local machine.
+Wait until the pipeline has successfully completed (it should take around 15-20 minutes).
 
-![dag_state](images/dag_graph_view.png)
+![dag_state](images/datalake_dag_graph_view.png)
 
 #### Delete Resources
 Please make sure to run the script below once the process is completed.
@@ -182,8 +202,10 @@ python -m delete_resources.py # Entry point to kick-off a series of processes to
 
 - <b>Data Lake</b>
     - The optimized data lake would not require significant changes since we have a flexible schema and S3 is meant for storing big data.
+
 - <b>ETL Process</b>
     - Regarding the ETL job, it would require moving to a EMR Cluster on AWS running Apache Spark, which is optimize for Big Data Processing.
+
 - <b>Orchestration</b>
     - The Airflow container is currently running on a single container on our local machine. In a production environment, Airflow would be running on a cluster of machines likely coordinated by Kubernetes.
 
