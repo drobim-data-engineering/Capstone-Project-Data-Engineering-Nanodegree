@@ -88,11 +88,11 @@ We are going to work with 3 datasets:
     - This dataset contains information about COVID-19 cases in US at county level.
 
 ### Data Exploration
-Please refer to the comprehensive Data Profiling for each dataset.
+Navigate to "data-profiling" and open the comprehensive Data Profiling for each dataset.
 
-- [US Accidents](data-profiling/us-accidents.html)
-- [US Cities: Demographics](data-profiling/us-cities-demographics-dataset.html)
-- [US COVID-19](data-profiling/covid-19-dataset.html)
+- [US Accidents](data-profiling/)
+- [US Cities: Demographics](data-profiling/)
+- [US COVID-19](data-profiling/)
 
 ### Fact Table
 ```
@@ -160,8 +160,7 @@ AWS_SECRET_ACCESS_KEY = <ENTER AWS SECRET KEY>  # paste your user Secret Key
 REGION = <ENTER THE AWS REGION> # paste the AWS Region to create resources
 VPC_ID = <ENTER VPC ID>  # paste the VPC_ID you want to create the resources (If blank the first VPC on user's AWS account is considered)
 ```
-<b>REMEMBER:</b> Never share your <b>AWS ACCESS KEY & SECRET KEY</b> on scripts.
-
+<b>REMEMBER:</b> Never share your <b>AWS ACCESS KEY & SECRET KEY</b> on scripts.  </br>
 This is just an experiment to get familiarized with AWS SDK for Python.
 
 #### Start Airflow container
