@@ -8,7 +8,11 @@ from airflow.operators.bash_operator import BashOperator
 from airflow.operators.postgres_operator import PostgresOperator
 from operators import CreateS3BucketOperator, UploadFilesToS3Operator, CheckS3FileCount
 
-raw_datalake_bucket_name = 'us-accidents-datalake'
+# Define S3 Bucket
+
+datalake_bucket_name = 'us-accidents-datalake'
+
+# Define Default DAG Args
 
 default_args = {
     'owner': 'drobim',
@@ -19,49 +23,55 @@ default_args = {
     'email_on_retry': False
 }
 
+# Create DAG
+
 dag = DAG('create_datalake_dag',
           default_args=default_args,
           description='Load data into raw S3 datalake.',
           catchup=False
           )
 
+# Create Tasks
+
 start_operator = DummyOperator(task_id='Begin_execution', dag=dag)
 
 create_raw_datalake = CreateS3BucketOperator(
     task_id='create_raw_datalake',
-    bucket_name=raw_datalake_bucket_name,
+    bucket_name=datalake_bucket_name,
     dag=dag
 )
 
 upload_covid_data = UploadFilesToS3Operator(
     task_id='upload_covid_data',
-    bucket_name=raw_datalake_bucket_name,
+    bucket_name=datalake_bucket_name,
     path='/usr/local/data/split/covid-19/',
     dag=dag
 )
 
 upload_demographic_data = UploadFilesToS3Operator(
     task_id='upload_demographic_data',
-    bucket_name=raw_datalake_bucket_name,
+    bucket_name=datalake_bucket_name,
     path='/usr/local/data/split/us-cities-demographics/',
     dag=dag
 )
 
 upload_accident_data = UploadFilesToS3Operator(
     task_id='upload_accident_data',
-    bucket_name=raw_datalake_bucket_name,
+    bucket_name=datalake_bucket_name,
     path='/usr/local/data/split/us-accidents/',
     dag=dag
 )
 
 check_file_quantity = CheckS3FileCount(
     task_id='check_file_quantity',
-    bucket_name=raw_datalake_bucket_name,
+    bucket_name=datalake_bucket_name,
     expected_count=12,
     dag=dag
 )
 
 end_operator = DummyOperator(task_id='Stop_execution', dag=dag)
+
+# DAG dependencies
 
 start_operator >> create_raw_datalake
 

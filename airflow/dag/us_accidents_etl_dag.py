@@ -7,14 +7,14 @@ from airflow.operators.postgres_operator import PostgresOperator
 from operators import S3ToRedshiftOperator, LoadTableOperator, DataQualityOperator
 from helpers.sql_create import SqlCreate
 from helpers.sql_load import SqlLoad
+from create_datalake_dag import datalake_bucket_name
 
 # Changes Operator UI Color
+
 PostgresOperator.ui_color = '#F98866'
 
-# Define Data Lake Bucket Name
-accidents_datalake_bucket_name = 'us-accidents-datalake'
-
 # Define Data Quality Checks
+
 data_quality_args = [
         {
             'sql': 'SELECT COUNT(*) FROM staging.us_covid_19;',
@@ -33,7 +33,8 @@ data_quality_args = [
         }
     ]
 
-# Define Dag Args
+# Define Default DAG Args
+
 default_args = {
     'owner': 'drobim',
     'start_date': datetime.now(),
@@ -153,7 +154,7 @@ tables_created = DummyOperator(task_id='tables_created', dag=dag)
 load_staging_us_accidents_table = S3ToRedshiftOperator(
     task_id='load_staging_us_accidents_table',
     dag=dag,
-    s3_bucket=accidents_datalake_bucket_name,
+    s3_bucket=datalake_bucket_name,
     s3_prefix='us-accidents',
     table='staging.us_accidents',
     copy_options="FORMAT as CSV DELIMITER as ',' QUOTE as '\"' IGNOREHEADER 1"
@@ -162,7 +163,7 @@ load_staging_us_accidents_table = S3ToRedshiftOperator(
 load_staging_us_covid_19_table = S3ToRedshiftOperator(
     task_id='load_staging_us_covid_19_table',
     dag=dag,
-    s3_bucket=accidents_datalake_bucket_name,
+    s3_bucket=datalake_bucket_name,
     s3_prefix='covid-19',
     table='staging.us_covid_19',
     copy_options="FORMAT as CSV DELIMITER as ',' QUOTE as '\"' IGNOREHEADER 1"
@@ -171,7 +172,7 @@ load_staging_us_covid_19_table = S3ToRedshiftOperator(
 load_staging_us_demographics_table = S3ToRedshiftOperator(
     task_id='load_staging_us_demographics_table',
     dag=dag,
-    s3_bucket=accidents_datalake_bucket_name,
+    s3_bucket=datalake_bucket_name,
     s3_prefix='us-cities-demographics',
     table='staging.us_demographics',
     copy_options="FORMAT as CSV DELIMITER as ';' QUOTE as '\"' IGNOREHEADER 1"
@@ -242,6 +243,7 @@ run_quality_checks = DataQualityOperator(
 end_operator = DummyOperator(task_id='Stop_execution', dag=dag)
 
 # DAG dependencies
+
 start_operator >> [create_staging_schema,create_dim_schema,create_fact_schema]
 
 [create_staging_schema,create_dim_schema,create_fact_schema] >> schema_created
