@@ -97,7 +97,7 @@ Navigate to "data-profiling" and open the comprehensive Data Profiling for each 
 
 ### Data Model
 
-The dimensional model consists of seven tables.
+The dimensional model consists of seven tables. </br>
 The details and relationship between them are listed below:
 
 #### Fact Tables
@@ -187,6 +187,7 @@ python -m create_resources.py # Creates required resources
 The execution of this script incur <b>REAL MONEY</b> costs so be aware of that.
 
 #### Start "Create Datalake" DAG
+Navigate to "airflow/dag/create_datalake_dag" and set the variable "datalake_bucket_name", the default is 'us-accidents-datalake'. However, this might crash as S3 Bucket names has to be unique.
 Visit the Airflow UI and start the "create_datalake_dag" by switching it state from OFF to ON. </br>
 Refresh the page and click on the "trigger dag" button.
 
@@ -222,7 +223,7 @@ python -m delete_resources.py # Entry point to kick-off a series of processes to
 1. The data was increased by 100x
 
 - <b>Data Lake</b>
-    - The optimized data lake would not require significant changes since we have a flexible schema and S3 is meant for storing big data.
+    - The data lake would not require significant changes since we have a flexible schema and S3 is meant for storing big data.
 
 - <b>ETL Process</b>
     - Regarding the ETL job, it would require moving to a EMR Cluster on AWS running Apache Spark, which is optimize for Big Data Processing.
