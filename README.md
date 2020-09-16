@@ -214,6 +214,15 @@ Wait until the pipeline has successfully completed.
 
 ![accident_etl_dag_graph_view](images/accident_etl_dag_graph_view.png)
 
+#### Exploring the Data
+Run the code below on you default shell
+```
+jupyter notebook  # launch jupyter notebook app
+```
+The notebook interface will appear in a new browser window or tab. </br>
+Navigate to src/analytics.ipynb and run some queries. </br>
+Have Fun!
+
 #### Delete Resources
 Please make sure to run the script below once the process is completed.
 
