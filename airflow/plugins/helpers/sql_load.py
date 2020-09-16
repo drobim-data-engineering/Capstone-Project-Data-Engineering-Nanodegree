@@ -119,12 +119,15 @@ class SqlLoad:
     insert_covid_table = ("""
     Select Row_Number() Over(order by true) As Covid_ID
 	,B.State_Code AS State
-    ,A.Country_Region As City
     ,A.Admin2 As County
     ,A.Date
-    ,A.Confirmed
-    ,A.Deaths
+    ,Sum(A.Confirmed) As Confirmed
+    ,Sum(A.Deaths) As Deaths
     ,extract('epoch' from A.Date) As Date_ID
     From staging.us_covid_19 As A
     Left Join (Select Distinct State, State_Code From staging.us_demographics) As B On A.Province_State = B.State
+    Group By B.State_Code
+            ,A.Admin2
+            ,A.Date
+            ,extract('epoch' from A.Date)
     """)

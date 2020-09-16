@@ -199,7 +199,6 @@ class SqlCreate:
     CREATE TABLE IF NOT EXISTS fact.us_covid_19 (
      Covid_ID   INT PRIMARY KEY
     ,State      varchar
-    ,City       varchar
     ,County     varchar
     ,Date       date
     ,Confirmed  int
