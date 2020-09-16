@@ -19,8 +19,8 @@ Capstone-Project-Data-Engineering-Nanodegree
 │   docker-compose.yml           # Docker Containers Configuration
 └───airflow                      # Airflow home
 |   |
-│   └───dags                          # Airflow DAGs location
-│   |   │ create_datalake_dag.py  # DAG definition
+│   └───dags                       # Airflow DAGs location
+│   |   │ create_datalake_dag.py   # DAG definition
 │   |   │ us_accidents_etl_dag.py  # DAG definition
 |   |   |
 |   └───plugins
@@ -33,9 +33,9 @@ Capstone-Project-Data-Engineering-Nanodegree
 |       |   | check_s3_file_count.py # CheckS3FileCount
 |       |   | create_s3_bucket.py    # CreateS3BucketOperator
 |       |   | upload_files_to_s3.py  # UploadFilesToS3Operator
-|       |   | data_quality.py    # DataQualityOperator
-|       |   | load_table.py      # LoadTableOperator
-|       |   | s3_to_redshift.py  # S3ToRedshiftOperator
+|       |   | data_quality.py        # DataQualityOperator
+|       |   | load_table.py          # LoadTableOperator
+|       |   | s3_to_redshift.py      # S3ToRedshiftOperator
 |___data-profiling
 │   | covid-19.html
 │   | us-accidents.html
@@ -48,8 +48,11 @@ Capstone-Project-Data-Engineering-Nanodegree
 │   |   └─── us-cities-demographics  # us-cities-demographics data set directory
 │   └───split                        # Split data is saved here automatically (Directories are created automatically as well)
 |___images
-|   | datalake_dag_graph_view.png # DAG Graph View
-|   | datalake_dag_trigger.png # DAG Tree View
+|   | datalake_dag_graph_view.png     # Datalake DAG Graph View
+|   | datalake_dag_trigger.png        # Datalake DAG Trigger
+|   | accident_elt_dag_graph_view.png # Accident ETL DAG Graph View
+|   | accident_elt_dag_trigger.png    # Accident ETL DAG Trigger
+|   | data-model.png                  # Redshift Entity Relationship Diagram
 |___src
 |   | create_resources.py # Script to create resources required
 |   | delete_resources.py # Script to delete resources created
