@@ -157,7 +157,8 @@ load_staging_us_accidents_table = S3ToRedshiftOperator(
     s3_bucket=datalake_bucket_name,
     s3_prefix='us-accidents',
     table='staging.us_accidents',
-    copy_options="FORMAT as CSV DELIMITER as ',' QUOTE as '\"' IGNOREHEADER 1"
+    copy_options="FORMAT as CSV DELIMITER as ',' QUOTE as '\"' IGNOREHEADER 1",
+    mode='truncate'
 )
 
 load_staging_us_covid_19_table = S3ToRedshiftOperator(
@@ -166,7 +167,8 @@ load_staging_us_covid_19_table = S3ToRedshiftOperator(
     s3_bucket=datalake_bucket_name,
     s3_prefix='covid-19',
     table='staging.us_covid_19',
-    copy_options="FORMAT as CSV DELIMITER as ',' QUOTE as '\"' IGNOREHEADER 1"
+    copy_options="FORMAT as CSV DELIMITER as ',' QUOTE as '\"' IGNOREHEADER 1",
+    mode='truncate'
 )
 
 load_staging_us_demographics_table = S3ToRedshiftOperator(
@@ -175,7 +177,8 @@ load_staging_us_demographics_table = S3ToRedshiftOperator(
     s3_bucket=datalake_bucket_name,
     s3_prefix='us-cities-demographics',
     table='staging.us_demographics',
-    copy_options="FORMAT as CSV DELIMITER as ';' QUOTE as '\"' IGNOREHEADER 1"
+    copy_options="FORMAT as CSV DELIMITER as ';' QUOTE as '\"' IGNOREHEADER 1",
+    mode='truncate'
 )
 
 load_accident_location_details_dim_table = LoadTableOperator(

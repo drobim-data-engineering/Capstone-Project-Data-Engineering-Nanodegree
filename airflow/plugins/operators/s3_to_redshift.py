@@ -14,6 +14,7 @@ class S3ToRedshiftOperator(BaseOperator):
                  redshift_conn_id='redshift',
                  aws_conn_id='aws_credentials',
                  copy_options='',
+                 mode='',
                  *args, **kwargs):
         super(S3ToRedshiftOperator, self).__init__(*args, **kwargs)
         self.s3_bucket = s3_bucket
@@ -22,11 +23,17 @@ class S3ToRedshiftOperator(BaseOperator):
         self.redshift_conn_id = redshift_conn_id
         self.aws_conn_id = aws_conn_id
         self.copy_options = copy_options
+        self.mode = mode
 
     def execute(self, context):
         aws_hook = AwsHook("aws_credentials")
         credentials = aws_hook.get_credentials()
         redshift_hook = PostgresHook("redshift")
+
+        if self.mode == 'truncate':
+            self.log.info(f'Deleting data from {self.table} table...')
+            redshift_hook.run(f'Truncate Table {self.table};')
+            self.log.info("Deletion complete.")
 
         self.log.info(f'Preparing to stage data from {self.s3_bucket}/{self.s3_prefix} to {self.table} table...')
 

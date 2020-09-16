@@ -11,7 +11,7 @@ class LoadTableOperator(BaseOperator):
                  table,
                  redshift_conn_id='redshift',
                  select_sql='',
-                 mode='append',
+                 mode='',
                  *args, **kwargs):
         super(LoadTableOperator, self).__init__(*args, **kwargs)
         self.redshift_conn_id = redshift_conn_id
