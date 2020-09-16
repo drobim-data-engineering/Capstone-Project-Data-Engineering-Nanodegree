@@ -187,7 +187,7 @@ python -m create_resources.py # Creates required resources
 The execution of this script incur <b>REAL MONEY</b> costs so be aware of that.
 
 #### Start "Create Datalake" DAG
-Navigate to "airflow/dag/create_datalake_dag" and set the variable "datalake_bucket_name", the default is 'us-accidents-datalake'. However, this might crash as S3 Bucket names has to be unique.
+Navigate to "airflow/dag/create_datalake_dag" and set the variable "datalake_bucket_name", the default is 'us-accidents-datalake'. However, this might crash as S3 Bucket names has to be unique. </br>
 Visit the Airflow UI and start the "create_datalake_dag" by switching it state from OFF to ON. </br>
 Refresh the page and click on the "trigger dag" button.
 
