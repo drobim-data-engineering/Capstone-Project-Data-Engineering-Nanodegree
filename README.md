@@ -5,6 +5,8 @@ Deivid Robim [Linkedin](https://www.linkedin.com/in/deivid-robim-200b3330/)
 
 ### Capstone Project: How COVID-19 impacted U.S Automotive Accidents?
 
+### Project Summary
+
 A Automotive Telematics startup, Global Telematics, has grown their traffic data and want to move their processes and data onto the cloud. </br>
 Their data resides in S3, in a directory of CSV files representing daily automotive accidents in U.S, as well as a directory with daily U.S COVID-19 data at county level.
 
@@ -66,23 +68,33 @@ Capstone-Project-Data-Engineering-Nanodegree
 * Install [Docker Compose](https://docs.docker.com/compose/install/)
 * [AWS](https://aws.amazon.com/) Account
 
-### Project Goal
-The idea is to create a data lake and a DataWarehouse on AWS, enabling users to analyze accidents data and extract insights.
+### Step 1: Scope the Project
 
+### Scope
+The idea is to create a data lake and a DataWarehouse on AWS, enabling users to analyze accidents data and extract insights. </br>
 The main goal of this project is to build an end-to-end data pipeline which is capable to work with big volumes of data.
 
 ### Technologies
-We are going to store the raw data on Amazon S3, which is is an object storage service that offers industry-leading scalability, availability and durability.
+The datasets will be cleaned, enriched to add more information and will be loaded into a data warehouse for this we will use following tools & technologies:
 
-Considering the current data size, we are going to use Amazon Redshift to ingest the data from S3 and perform the ETL process, denormalizing the datasets to create FACT and DIMENSION tables.
+<b> 1. AWS S3: </b>
+ - We are going to store the raw data on Amazon S3, which is is an object storage service that offers industry-leading scalability, availability and durability.
 
-Finally, to orchestrate everything, we are going to build a data pipeline using Apache Airflow.
-Airflow provides an intuitive UI where we can track the progress and bottlenecks of our pipelines.
+<b> 2. AWS Redshift: </b>
+ - Considering the current data size, we are going to use Amazon Redshift to ingest the data from S3 and perform the ETL process, denormalizing the datasets to create FACT and DIMENSION tables.
 
-### Datasets
+<b> 3. Apache Airflow: </b>
+ - We are going to build a data pipeline using Apache Airflow to orchestrate everything
+ Airflow provides an intuitive UI where we can track the progress and bottlenecks of our pipelines.
 
+<b> 4. Python: </b>
+ - Python is a easy to use programming language as it supports wide variety of libraries to perform tasks such as creation of pipelines as well as data analysis.
+
+<b> 5. Juypter Notebooks: </b>
+ - Open-source web application that allows you to create and share documents that contain live code, visualizations etc. Uses include: data cleaning and transformation, data visualization, machine learning, and much more.
+
+### Describe and Gather Data
 We are going to work with 3 datasets:
-
 
 - [U.S Accidents](https://www.kaggle.com/sobhanmoosavi/us-accidents)
     - This is a countrywide traffic accident dataset, which covers 49 states of the United States.
@@ -91,38 +103,55 @@ We are going to work with 3 datasets:
 - [U.S COVID-19](https://www.kaggle.com/imdevskp/corona-virus-report?select=usa_county_wise.csv)
     - This dataset contains information about COVID-19 cases in US at county level.
 
-### Data Exploration
+### Step 2: Explore and Assess the Data
 Navigate to "data-profiling" and open the comprehensive Data Profiling for each dataset.
 
 - [US Accidents](data-profiling/)
 - [US Cities: Demographics](data-profiling/)
 - [US COVID-19](data-profiling/)
 
-### Data Model
+Based on these reports, I was able to define a set of rules to clean and model the data accordingly.
+
+### Step 3: Define the Data Model
+After reviewing and cleaning all the datasets, it was defined the need of two types of tables.
+
+- <b> Staging tables: </b> This can be used for preprocessing the data before loading into the main Data Warehousing tables.
+
+- <b> Datawarehouse tables: </b> This will be the main Fact & Dimension tables
+
+### Staging Tables
+```
+• staging.us_demographics - Provides demographics information about US cities
+• staging.us_accidents - Provides the accident details
+• staging.us_covid_19 - Provides daily information about COVID-19 in US
+```
+![staging_tables](images/staging-tables.png)
+
+### Datawarehouse Tables
 
 The dimensional model consists of seven tables. </br>
 The details and relationship between them are listed below:
 
 #### Fact Tables
 ```
-• us_demographics - Provides demographics information about US cities
-• us_accidents - Provides the accident details
-• us_covid_19 - Provides daily information about COVID-19 in US
+• fact.us_demographics - Provides demographics information about US cities
+• fact.us_accidents - Provides the accident details
+• fact.us_covid_19 - Provides daily information about COVID-19 in US
 ```
 
 #### Dimension Tables
 ```
-• accident_address - Provides a unique list addresses based on accidents
-• accident_location_details - Provides the accident location details based on the accident address surroundings
-• weather_condition - Provides the weather condition at the time of the accident
-• dates - Provides timestamps of records broken down into specific units
+• dim.accident_address - Provides a unique list addresses based on accidents
+• dim.accident_location_details - Provides the accident location details based on the accident address surroundings
+• dim.weather_condition - Provides the weather condition at the time of the accident
+• dim.dates - Provides timestamps of records broken down into specific units
 ```
 
-#### Entity Relationship Diagram
+#### Datawarehouse - Entity Relationship Diagram
 
 ![data_model](images/data-model.png)
 
-### Instructions for running locally
+### Step 4: Run ETL to Model the Data
 
 #### Clone repository to local machine
 ```
@@ -231,6 +260,15 @@ cd src/
 python -m delete_resources.py # Entry point to kick-off a series of processes to delete resources resources on AWS and connections on Airflow.
 ```
 
+### Step 5: Complete Project Write Up
+
+I think most has already been said.
+Now that this dataset is available on AWS Redshift, Data Scientists and Data Analysts can take over and create AI models and dashboards.
+New data can be processed as it arrives, Airflow can be used to track and visualize the progress.
+
+Due to uncertainty about the data update frequency, The pipeline will be executed on demand, which makes sense as long as new data is published.
+The user can easily schedule the DAG to reflect a monthly run for instance (`schedule_interval='@monthly'`).
+
 ## Addressing Other Scenarios
 1. The data was increased by 100x
 
@@ -248,4 +286,5 @@ python -m delete_resources.py # Entry point to kick-off a series of processes to
     - Airflow will store useful statistics regarding job status and we can easily spot faults in the pipeline.
 
 3. The database needed to be accessed by 100+ people.
-    - Amazon Redshift should be able to handle 100+ people querying the Datawarehouse. The user can also increase the number of instances at any time to satisfy high demand.
+    - The more people accessing the database the more CPU resources you need to get a fast experience. By using a distributed database you can improve your replications and partitioning to get faster query results for each user. If the load is getting to high it would make sense to scale the database horizontally by adding more nodes to bring down the load for each individual node.
+
