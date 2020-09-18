@@ -125,7 +125,12 @@ After reviewing and cleaning all the datasets, it was defined the need of two ty
 • staging.us_accidents - Provides the accident details
 • staging.us_covid_19 - Provides daily information about COVID-19 in US
 ```
+<details>
+  <summary>Click here to see the staging tables schema</summary>
+<pre>
 ![staging_tables](images/staging-tables.png)
+</pre>
+</details>
 
 ### Datawarehouse Tables
 
