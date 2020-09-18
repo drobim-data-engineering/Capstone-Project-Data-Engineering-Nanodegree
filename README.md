@@ -298,4 +298,3 @@ The user can easily schedule the DAG to reflect a monthly run for instance (`sch
 
 3. The database needed to be accessed by 100+ people.
     - The more people accessing the database the more CPU resources you need to get a fast experience. By using a distributed database you can improve your replications and partitioning to get faster query results for each user. If the load is getting to high it would make sense to scale the database horizontally by adding more nodes to bring down the load for each individual node.
-
