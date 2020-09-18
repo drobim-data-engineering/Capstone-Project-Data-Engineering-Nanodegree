@@ -126,10 +126,10 @@ After reviewing and cleaning all the datasets, it was defined the need of two ty
 • staging.us_covid_19 - Provides daily information about COVID-19 in US
 ```
 <details>
-  <summary>Click here to see the staging tables schema</summary>
-<pre>
+  <summary>Click here to see the Staging Tables Schema</summary></br>
+
 ![staging_tables](images/staging-tables.png)
-</pre>
+
 </details>
 
 ### Datawarehouse Tables
@@ -153,8 +153,14 @@ The details and relationship between them are listed below:
 ```
 
 #### Datawarehouse - Entity Relationship Diagram
+<details>
+  <summary>Click here to see the Datawarehouse Tables Schema</summary></br>
 
 ![data_model](images/data-model.png)
+
+</details>
+
+
 
 ### Step 4: Run ETL to Model the Data
 
